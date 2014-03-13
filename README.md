@@ -11,9 +11,7 @@ Using these scripts requires that you have installed Python 2.7 ( http://www.pyt
 
 These scripts are provided as-is.  Note that I am not affiliated with the makers of EdgeTrak, nor with Adam Baker or Joanna Brugman, who created the SSANOVA script for R that these scripts were designed to integrate with.
 
-This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 Unported License.  That means that you're free to use and modify it as long as you continue to share it under a similar license, and that you may use it commercially.
-
-- Blake H. Allen
+Blake H. Allen
 
 
 #### INSTRUCTIONS ####
