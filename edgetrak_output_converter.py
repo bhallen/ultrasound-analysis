@@ -22,8 +22,6 @@ def tidy_up (file):
                     y_coords.append(row[i])
             i += 1
 
-    print len(x_coords)
-    print len(y_coords)
     new_rows = []
     i = 0
     while i < len(x_coords):
@@ -33,7 +31,6 @@ def tidy_up (file):
         new_rows.append(row)
         i += 1
     
-    print len(new_rows)
     i = 0
     j = 0
     for row in new_rows:
@@ -59,13 +56,13 @@ def tidy_up (file):
 
 def main():
     cwd = os.getcwd()
-    for file in os.listdir(cwd):
-        if ".con" in file:
-            converted = tidy_up (file)
-            print str(file)
-            name = str(file)[0:-4]
-            file = open(name+".txt", "w")
-            file.writelines(converted)
+    for f in os.listdir(cwd):
+        if ".con" in f:
+            converted = tidy_up (f)
+            print str(f)
+            name = str(f)[0:-4]
+            f = open(name+".txt", "w")
+            f.writelines(converted)
 
 if __name__ == '__main__':
     main()
