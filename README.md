@@ -14,6 +14,9 @@ These scripts are provided as-is.  Note that I am not affiliated with the makers
 Blake H. Allen
 
 
+(** ADD EdgeTrak download link to README **)
+
+
 #### INSTRUCTIONS ####
 
 1) Put make_move_convert.py in the same directory as the video files, which must be titled in the format "(two-character initials of informant)(1- or 2-digit number of section).mov".  E.g.: 'BA1.mov', 'XY23.mov'
