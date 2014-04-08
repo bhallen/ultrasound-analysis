@@ -13,8 +13,11 @@ These scripts are provided as-is.  Note that I am not affiliated with the makers
 ### DEPENDENCIES ###
 
 You must have these programs installed in order to use all of the scripts included here:
+
 1. Python 2.7 --- http://www.python.org/getit/
+
 2. FFmpeg --- http://ffmpeg.org/ .  Make sure that the 'ffmpeg' command is available in your terminal environment.
+
 3. (See note below!) A terminal program, such as Bash.  This is generally pre-installed on Linux and Mac OS X as Terminal.  If you use Windows, I recommend that you use Cygwin --- http://www.cygwin.com/
 
 Note that if you only want to use a subset of the scripts included here, you may not need all of the above programs.  Most notably, if you do not want to use autogrouper.py to prepare segment *.txt files for giving to the R script, you do not need access to a terminal environment.
@@ -23,9 +26,11 @@ Note that if you only want to use a subset of the scripts included here, you may
 ### RELATED SOFTWARE ###
 
 Parts of this package are designed for use with EdgeTrak, which allows you to extract contour information from ultrasound images.  You can download EdgeTrak here:
+
 http://speech.umaryland.edu/software.html
 
 Note that I am not affiliated with the makes of EdgeTrak.  Please refer to the citation below:
+
 Li, M., Kambhamettu, C., and Stone, M. (2005) Automatic contour tracking in ultrasound images. Clinical Linguistics and Phonetics 19(6-7); 545-554.
 
 
