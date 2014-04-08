@@ -7,6 +7,16 @@ A package of scripts for processing and analysis of ultrasound data for research
 
 The scripts in this directory (convert_mov_to_wav.py, extract_frames.py, convert_edgetrak_output.py, and autogrouper.py) automate four otherwise tedious parts of the process of extracting, processing, and analyzing data from ultrasound movies or any other annotated video file.
 
+The scripts perform the following functions:
+
+1. Extract audio from ultrasound movie files, so that they can be annotated in Praat (*convert_mov_to_wav.py*)
+
+2. Extract image frames from ultrasound movie files, based on corresponding TextGrid files (*extract_frames.py*)
+
+3. Convert the .con files that EdgeTrak outputs into a more useful format (*convert_edgetrak_output.py*)
+
+4. Combine data files into groups to be compared using the included R script (*autogrouper.py*)
+
 These scripts are provided as-is.  Note that I am not affiliated with the makers of EdgeTrak, nor with Adam Baker or Joanna Brugman, who created the SSANOVA script for R that these scripts were designed to integrate with.
 
 
