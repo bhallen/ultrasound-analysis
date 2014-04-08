@@ -37,17 +37,17 @@ Li, M., Kambhamettu, C., and Stone, M. (2005) Automatic contour tracking in ultr
 
 ### INSTRUCTIONS ###
 
-*STEP 1*: Convert ultrasound movie files (in .mov format) to audio (.wav) files that you can use for making Praat TextGrids
+**STEP 1**: Convert ultrasound movie files (in .mov format) to audio (.wav) files that you can use for making Praat TextGrids
 
 1.1) Put convert_mov_to_wav.py in the same directory as the video files, which must be titled in the format "(two-character initials of informant)(1- or 2-digit number of section).mov".  E.g.: 'BA1.mov', 'XY23.mov'
 
 1.2) Add execute permissions to convert_mov_to_wav.py and execute it.  To do so, you may either run the script from a terminal window using python, or simply double-click the file and choose to run it.
 
 
-*STEP 2*: Annotate the WAV files in Praat using a point tier.
+**STEP 2**: Annotate the WAV files in Praat using a point tier.
 
 
-*STEP 3*: Extract still frames (images) from your ultrasound movie files using the TextGrid(s)
+**STEP 3**: Extract still frames (images) from your ultrasound movie files using the TextGrid(s)
 
 3.1) Once the annotations are finished and saved as X.TextGrid (where X = the file name of the associated video, without its extension), put them in a directory along with the MOV files and extract_frames.py.
 
@@ -58,16 +58,16 @@ Li, M., Kambhamettu, C., and Stone, M. (2005) Automatic contour tracking in ultr
 3.3) Add execute permissions to extract_frames.py and execute it.  This produces JPG files from the annotated time points in each video, all titled in a format ready to be given to EdgeTrak.
 
 
-*STEP 4*: Import the JPG files into EdgeTrak and create .con files encoding the relevant contour data.
+**STEP 4**: Import the JPG files into EdgeTrak and create .con files encoding the relevant contour data.
 NOTE: The SSANOVA script requires that each contour consist of no more than 30 points.  You can set this in the "save .con file" dialog.  Also be sure that the number of points and scaling constant are the same for all contours across your entire data set.
 
 
-*STEP 5*: Convert EdgeTrak outputs (.con files) into .txt files that can be used with the R script
+**STEP 5**: Convert EdgeTrak outputs (.con files) into .txt files that can be used with the R script
 
 5.1) Put all those *.con files in a directory along with convert_edgetrak_output.py and run it.  This will produce corresponding *.txt files.
 
 
-*STEP 6*: Combine vowel data into groups of interest and give to the R script
+**STEP 6**: Combine vowel data into groups of interest and give to the R script
 
 6.1) Use autogrouper.py to produce a file containing all individual vowels (for comparison of individual vowels) and/or files containing groups of subsets of vowels.  Open up autogrouper.py in a text editor and read its comments for more help.
 
