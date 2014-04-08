@@ -2,32 +2,36 @@
 # -*- coding: utf-8 -*-
 
 
-## This script allows you to combine vowel *.txt files into sets of those files for giving to R.  It can produce either sets of full vowels
-## or groups of subsets of some vowels--the latter is useful for preventing one vowel (the one with more frames) in a group from having
-## too great an effect on the shape of that group's contour.
+## This script allows you to combine segment *.txt files, such as those from edgetrak_output_converter.py.  Given a set of *.txt files each with data from an individual segment, this script groups them into whatever two groups you wish to compare using the R script.
 
-## Note that the selection of "groups" is what determines the label applied in the first column to all the items from each vowel in 
-## that group.
+## Example 1: comparing two segments
+## In this case, both groups consist of only one segment apiece.  Say you want to compare FD's [e] to their [o], and these data are stored in FD-e.txt and FD-o.txt, respectively.  Run the script, and at the first prompt, enter 'all' (without quotes) and press Enter/Return.  (Using 'all' here means that there is no limit set on how many tokens are used from each vowel.)  At the next prompt, enter the name of the file you want the script to output, e.g. 'FD-e-vs-o' (do not enter a file extension).  When prompted for the name of the first group, enter 'mid-front', and when asked for the name of the next group, enter 'mid-back'.  Since there are only two groups of interest for now, enter 'end' at the next prompt.  Now you will add component segment files into the groups.  Since the one vowel in the 'mid-front' group is [e], stored in the file FD-e.txt, you will enter 'FD-e' at the next prompt.  Enter 'end' at the following one to end addition of vowels into this group.  When prompted to add a vowel to the 'mid-back' group, enter 'FD-o', then end at the next prompt.  The output file will now be created.
 
-## Typical use will be creating a set of full vowel groups (using "all" at the first prompt, one group for each vowel, and one vowel per group) for
-## vowel-to-vowel comparisons, then creating full vowel groups of vowels which are split into oral and nasal subsets or somesuch,
-## and then finally creating the groups of subsets for vowel group testing:
-## e.g. if you want to compare all the ATR vowels versus all the RTR vowels, and the vowel with the fewest number of frames has
-## 11 frames, then you'll tell the script to take 10 frames per vowel, create two groups (ATR and RTR), and put all the ATR vowels into the
-## first and all the RTR vowels into the second; comparing the resulting ATR and RTR groups should give a sense of how ATR and RTR
-## vowels differ overall.
+## Example 2: comparing two groups of segments
+## Suppose that you want to compare the two high vowels [u] and [i] as a group (average) to the two mid vowels [o] and [e], in order to determine whether there are any articulatory differences between the two classes.  Now suppose that you have 20 tokens of [u], [i], and [o], but only 15 tokens of [e].  In order to ensure that the data from [o] is not overrepresented in the mid vowel group ([o] and [e]), you must limit the number of tokens to 15.  In such a scenario, at the first prompt ('frames per segment'), you will enter '15'.  Then continue to create the two groups ('high' and 'mid') and add vowels to each group normally (add 'FD-u', and 'FD-i' to 'high', then add 'FD-e' and 'FD-o' to mid, assuming the same file name convention as Example 1).
+
+## Example 3: creating a file with all vowel groups
+## The files that this script creates are not limited to having only two groups.  You may wish to create a single file with all data from every segment group of interest, and then pick out subsets of it to compare using the R script.  This can be done in the same way as the examples above: simply continue adding more groups after the second one.  You are free to include a particular vowel's data in multiple groups.
+
+## Note that the selection of "groups" is what determines the label applied in the first column to all the items from each segment in that group.
+
+## Typical use will involve creating a set of full segment groups (using "all" at the first prompt, one group for each segment, and one segment per group) for segment-to-segment comparisons, then creating full segment groups of segments which are split into, e.g. oral and nasal subsets, and then finally creating the groups of subsets for segment group testing.
+
+
 
 
 import csv
 import sys, os
 
-def trim_vowel (file, nf): # this function reads in individual vowel data files, 
-                          # removes row 1, groups them by 30s (i.e. by frames),
-                          # and takes an evenly spaced subset of length nf
+def trim_segment (file, nf):
+    """Read in individual segment data files, 
+    remove row 1, group them by 30s (i.e. by frames),
+    and takes an evenly spaced subset of length nf.
+    """
     lines = []
-    vowel_data = csv.reader(open(file), delimiter=' ')  # be sure columns are separated by a comma!
+    segment_data = csv.reader(open(file), delimiter=' ')  # be sure columns are separated by a comma!
     v_rows = []
-    for row in vowel_data:
+    for row in segment_data:
         v_rows.append(row)
     del v_rows[0] # get ride of the column names
     frames = []
@@ -63,16 +67,15 @@ def trim_vowel (file, nf): # this function reads in individual vowel data files,
     for frame in trimmed_frames:
         for point in frame:
             lines.append(point)
-    #lines.append(["","end of vowel"])
+    #lines.append(["","end of segment"])
     return lines
     
     
 
 def main():
-    nf = raw_input('How many frames per vowel?  Enter "all" to make a full multi-vowel list. ') # number of frames
+    nf = raw_input('How many frames per segment?  Enter "all" to make a full multi-segment list. ') # number of frames
     output_name = raw_input('Enter the name of the output file you want to create (no file extension): ')
-    groups = [] # this will hold the actual content
-    group_names = [] # this just holds the names
+    groups, group_names = [], []
     gni = 0 # group_names iterator
     group_names.append(raw_input('Enter the name of the first group (e.g. FD-ATR-all): '))
     groups.append([])
@@ -84,19 +87,19 @@ def main():
     groups.pop(-1) # get rid of the blank one
     print 'Groups: '+str(group_names)
     line_strings = [] # this will hold the lines converted from lists to strings
-    for group in group_names: # adds each vowel to the group
+    for group in group_names: # adds each segment to the group
         lines = [] # lines just in this group
         print 'Now ready to add to group "'+group+'".'
-        v_choices = [] # which vowels are to be added to the group
+        v_choices = [] # which segments are to be added to the group
         vci = 0 # v_choices iterator
-        v_choices.append(raw_input('Enter the name of the first vowel in this group (e.g. FD-ATRe): '))
+        v_choices.append(raw_input('Enter the name of the first segment in this group (e.g. FD-ATRe): '))
         while v_choices[vci] != 'end':
             vci += 1
-            v_choices.append(raw_input('Enter the name of the next vowel in this group (e.g. FD-ATRi); enter "end" if there are no more vowels in this group: '))
+            v_choices.append(raw_input('Enter the name of the next segment in this group (e.g. FD-ATRi); enter "end" if there are no more segments in this group: '))
         v_choices.pop(-1) # again, to get rid of "end"
-        print 'Vowels in '+group+': '+str(v_choices)
-        for vowel in v_choices: # call trim_vowel() to take subsets so that 1) R can handle the size; and 2) vowels have equal weight within the group
-            for line in trim_vowel(vowel+'.txt', nf):
+        print 'segments in '+group+': '+str(v_choices)
+        for segment in v_choices: # call trim_segment() to take subsets so that 1) R can handle the size; and 2) segments have equal weight within the group
+            for line in trim_segment(segment+'.txt', nf):
                 lines.append(line)
         for line in lines: # fill in first column with the group name
             line[0] = group

@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-## The *.con files that EdgeTrak produces are not in a format that can be used by SSANOVA_functions_plot.R .  This script converts the *.con files into *.txt files in a usable format.
+## The *.con files that EdgeTrak produces are not in a format that can be used by SSANOVA_functions_plot.R.  This script converts the *.con files into *.txt files in a usable format.
+
+## If running this script from a terminal window, please ensure that your current working directory is the one containing the .con files.
 
 import csv
 import sys
@@ -44,12 +46,10 @@ def tidy_up (file):
     new_rows.insert(0, c_names)  # now new_rows has lists of rows
     
     final_rows = []
-    for row in new_rows:  # but we need to make the lists into strings for writing to file
+    for row in new_rows:
         row_str = ' '.join(row)  # produces space-delimited *.txt files
         row_str += '\n'
         final_rows.append(row_str)
-    print final_rows
-    return final_rows  # this is the list of strings
         
             
 
@@ -58,11 +58,10 @@ def main():
     cwd = os.getcwd()
     for f in os.listdir(cwd):
         if ".con" in f:
-            converted = tidy_up (f)
-            print str(f)
+            converted = tidy_up(f)
             name = str(f)[0:-4]
-            f = open(name+".txt", "w")
-            f.writelines(converted)
+            with open(name+".txt", "w") as f:
+                f.writelines(converted)
 
 if __name__ == '__main__':
     main()
