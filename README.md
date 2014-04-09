@@ -1,7 +1,7 @@
 ultrasound-analysis
 ===================
 
-A package of scripts for processing and analysis of ultrasound data for research in linguistics
+A package of scripts for processing and analyzing ultrasound data for research in linguistics
 
 ### DESCRIPTION ###
 
