@@ -33,7 +33,7 @@ def extract_section_frames(s, vowels_so_far):
     times = []
     for item in raw_times:
         times.append(item[9:])
-    raw_vowels = re.findall('mark = "\w+"', tg)
+    raw_vowels = re.findall('mark = ".+"', tg)
     vowels = []
     for item in raw_vowels:
         vowels.append(item[8:-1])
