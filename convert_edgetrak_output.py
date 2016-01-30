@@ -51,7 +51,7 @@ def tidy_up (file):
         row_str += '\n'
         final_rows.append(row_str)
         
-            
+    return final_rows
 
 
 def main():
