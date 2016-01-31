@@ -115,46 +115,45 @@ def main():
 
     output_r = open('R_'+output_name+'.txt', 'w') # now creating a second output file: the copy-pasteable chunk of R script to compare the groups
     r_text = '''
-if(Sys.getenv("OS") != "")
-{
-	my.Filters = matrix(c("TXT files (*.TXT)","All files (*.*)","*.TXT","*.*"),2,2);
-	input.traces = choose.files(caption="Select .txt files (multiple selection allowed)",filters=my.Filters);
-} else 
-{
-	input.traces = \''''+os.getcwd()+'/'+output_name+'.txt\''''';
-}
+    if(Sys.getenv("OS") != "")
+    {
+    	my.Filters = matrix(c("TXT files (*.TXT)","All files (*.*)","*.TXT","*.*"),2,2);
+    	input.traces = choose.files(caption="Select .txt files (multiple selection allowed)",filters=my.Filters);
+    } else 
+    {
+    	input.traces = \''''+os.getcwd()+'/'+output_name+'.txt\''''';
+    }
 
-# The working directory is set to the folder that contains the TXT files by finding 
-# the last "\\" and selecting a substring that stops there. 
-not.found = TRUE;
-search.index = nchar(input.traces[1]);
-while(not.found && search.index >= 1){
-	if(substring(input.traces[1],search.index,search.index)=="\\\\" | substring(input.traces[1],search.index,search.index)=="/"){
-		not.found = FALSE;
-	}else{
-		search.index = search.index-1;
-	}
-}
-my.Default = substring(input.traces[1],1,search.index);
-setwd(my.Default);
+    # The working directory is set to the folder that contains the TXT files by finding 
+    # the last "\\" and selecting a substring that stops there. 
+    not.found = TRUE;
+    search.index = nchar(input.traces[1]);
+    while(not.found && search.index >= 1){
+    	if(substring(input.traces[1],search.index,search.index)=="\\\\" | substring(input.traces[1],search.index,search.index)=="/"){
+    		not.found = FALSE;
+    	}else{
+    		search.index = search.index-1;
+    	}
+    }
+    my.Default = substring(input.traces[1],1,search.index);
+    setwd(my.Default);
 
-# Filenames without the path are listed in the vector "input.traces.filenames".
-input.traces.filename = substring(input.traces,search.index+1,nchar(input.traces))
+    # Filenames without the path are listed in the vector "input.traces.filenames".
+    input.traces.filename = substring(input.traces,search.index+1,nchar(input.traces))
 
 
-# Read in the data
+    # Read in the data
 
-mydata = read.table(input.traces.filename,h=T,quote="\\"",dec=".", fill = TRUE, comment.char="")
-mydata <- as.data.frame(mydata)
+    mydata = read.table(input.traces.filename,h=T,quote="\\"",dec=".", fill = TRUE, comment.char="")
+    mydata <- as.data.frame(mydata)
 
-# Enter the labels for the three things you want to compare
-#compare(mydata,"B2","B3", "B4", "B5")
+    # Enter the labels for the three things you want to compare
+    #compare(mydata,"B2","B3", "B4", "B5")
 
-compare(mydata, "'''+group_names[0]+'", "'+group_names[1]+'", "'+group_names[0]+'", "'+group_names[1]+'")'
+    compare(mydata, "'''+group_names[0]+'", "'+group_names[1]+'", "'+group_names[0]+'", "'+group_names[1]+'")'
     output_r.write(r_text)
 
 if __name__ == '__main__':
     main()
     print("Grouping complete.")
     raw_input()
-
