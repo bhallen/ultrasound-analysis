@@ -17,7 +17,10 @@
 
 ## Typical use will involve creating a set of full segment groups (using "all" at the first prompt, one group for each segment, and one segment per group) for segment-to-segment comparisons, then creating full segment groups of segments which are split into, e.g. oral and nasal subsets, and then finally creating the groups of subsets for segment group testing.
 
-
+try:
+    inputfunc = raw_input
+except NameError:
+    inputfunc = input
 
 
 import csv
@@ -73,31 +76,31 @@ def trim_segment (file, nf):
     
 
 def main():
-    nf = raw_input('How many frames per segment?  Enter "all" to make a full multi-segment list. ') # number of frames
-    output_name = raw_input('Enter the name of the output file you want to create (no file extension): ')
+    nf = inputfunc('How many frames per segment?  Enter "all" to make a full multi-segment list. ') # number of frames
+    output_name = inputfunc('Enter the name of the output file you want to create (no file extension): ')
     groups, group_names = [], []
     gni = 0 # group_names iterator
-    group_names.append(raw_input('Enter the name of the first group (e.g. FD-ATR-all): '))
+    group_names.append(inputfunc('Enter the name of the first group (e.g. FD-ATR-all): '))
     groups.append([])
     while group_names[gni] != 'end': # adds as many groups as needed (but it should generally be just 2 for the SSANOVA script...)
         gni += 1
-        group_names.append(raw_input('Enter the name of the next group (e.g. FD-RTR-all); enter "end" if there are no more groups: '))
+        group_names.append(inputfunc('Enter the name of the next group (e.g. FD-RTR-all); enter "end" if there are no more groups: '))
         groups.append([])
     group_names.pop(-1) # get rid of "end"
     groups.pop(-1) # get rid of the blank one
-    print 'Groups: '+str(group_names)
+    print('Groups: '+str(group_names))
     line_strings = [] # this will hold the lines converted from lists to strings
     for group in group_names: # adds each segment to the group
         lines = [] # lines just in this group
-        print 'Now ready to add to group "'+group+'".'
+        print('Now ready to add to group "'+group+'".')
         v_choices = [] # which segments are to be added to the group
         vci = 0 # v_choices iterator
-        v_choices.append(raw_input('Enter the name of the first segment in this group (e.g. FD-ATRe): '))
+        v_choices.append(inputfunc('Enter the name of the first segment in this group (e.g. FD-ATRe): '))
         while v_choices[vci] != 'end':
             vci += 1
-            v_choices.append(raw_input('Enter the name of the next segment in this group (e.g. FD-ATRi); enter "end" if there are no more segments in this group: '))
+            v_choices.append(inputfunc('Enter the name of the next segment in this group (e.g. FD-ATRi); enter "end" if there are no more segments in this group: '))
         v_choices.pop(-1) # again, to get rid of "end"
-        print 'segments in '+group+': '+str(v_choices)
+        print('segments in '+group+': '+str(v_choices))
         for segment in v_choices: # call trim_segment() to take subsets so that 1) R can handle the size; and 2) segments have equal weight within the group
             for line in trim_segment(segment+'.txt', nf):
                 lines.append(line)
@@ -111,7 +114,7 @@ def main():
         output_file.write(line+'\n')
         
 
-# now the script creates a ready-made chunk of R script that should access the *.txt files just created and compare the first and last groups in it.  Primarily useful if you create a file with just two groups, which most of the outputs from Autogrouper.py (the actual groups) will be.
+    # now the script creates a ready-made chunk of R script that should access the *.txt files just created and compare the first and last groups in it.  Primarily useful if you create a file with just two groups, which most of the outputs from Autogrouper.py (the actual groups) will be.
 
     output_r = open('R_'+output_name+'.txt', 'w') # now creating a second output file: the copy-pasteable chunk of R script to compare the groups
     r_text = '''
@@ -156,4 +159,4 @@ def main():
 if __name__ == '__main__':
     main()
     print("Grouping complete.")
-    raw_input()
+    inputfunc()
